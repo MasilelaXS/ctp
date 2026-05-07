@@ -1085,17 +1085,14 @@
 
     /* ---------- BACKGROUND MUSIC ---------- */
     (function initMusic() {
-      var audio   = document.getElementById('bgAudio');
-      var btn     = document.getElementById('muteBtn');
-      var iSound  = document.getElementById('iconSound');
-      var iMute   = document.getElementById('iconMute');
-      var muted   = false;
+      var audio    = document.getElementById('bgAudio');
+      var btn      = document.getElementById('muteBtn');
+      var iSound   = document.getElementById('iconSound');
+      var iMute    = document.getElementById('iconMute');
+      var muted    = false;
+      var playing  = false;
 
       audio.volume = 0.45;
-
-      function tryPlay() {
-        if (!muted) audio.play().catch(function () {});
-      }
 
       function setIcons() {
         iSound.style.display = muted ? 'none' : '';
@@ -1103,22 +1100,54 @@
         btn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
       }
 
-      /* Try immediately (works on desktop) */
-      tryPlay();
-
-      /* Unlock on very first interaction anywhere on the page */
-      function unlockOnce() {
-        tryPlay();
+      function tryPlay() {
+        if (muted || playing) return;
+        var p = audio.play();
+        if (p) {
+          p.then(function () {
+            playing = true;
+            removeListeners();
+          }).catch(function () { /* still blocked — keep listeners alive */ });
+        }
       }
-      document.addEventListener('touchstart', unlockOnce, { once: true, passive: true });
-      document.addEventListener('click',      unlockOnce, { once: true });
 
-      /* Mute / unmute toggle — no stopPropagation so the unlock above fires too */
+      var EVENTS = ['touchstart', 'touchend', 'click', 'scroll', 'keydown', 'pointerdown'];
+
+      function onInteraction() { tryPlay(); }
+
+      function addListeners() {
+        EVENTS.forEach(function (ev) {
+          document.addEventListener(ev, onInteraction, { passive: true });
+        });
+      }
+
+      function removeListeners() {
+        EVENTS.forEach(function (ev) {
+          document.removeEventListener(ev, onInteraction);
+        });
+      }
+
+      /* Try immediately (works on desktop); fall back to interaction unlock on mobile */
+      var initial = audio.play();
+      if (initial) {
+        initial.then(function () {
+          playing = true;
+        }).catch(function () {
+          addListeners(); /* blocked — unlock on first gesture */
+        });
+      } else {
+        addListeners();
+      }
+
       btn.addEventListener('click', function () {
         muted = !muted;
         audio.muted = muted;
         setIcons();
-        if (!muted) tryPlay();
+        if (!muted) {
+          playing = false; /* allow tryPlay to fire again */
+          tryPlay();
+          if (!playing) addListeners();
+        }
       });
 
       setIcons();
