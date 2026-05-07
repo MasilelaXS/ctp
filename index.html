@@ -786,7 +786,7 @@
   <!--  FLOATING PETALS                                             -->
   <!-- ============================================================ -->
   <!-- Background music -->
-  <audio id="bgAudio" src="song.mp3" loop preload="auto"></audio>
+  <audio id="bgAudio" src="song.mp3" loop preload="auto" muted></audio>
 
   <!-- Mute toggle -->
   <button id="muteBtn" aria-label="Mute music" title="Toggle music">
@@ -1085,12 +1085,12 @@
 
     /* ---------- BACKGROUND MUSIC ---------- */
     (function initMusic() {
-      var audio    = document.getElementById('bgAudio');
-      var btn      = document.getElementById('muteBtn');
-      var iSound   = document.getElementById('iconSound');
-      var iMute    = document.getElementById('iconMute');
-      var muted    = false;
-      var playing  = false;
+      var audio   = document.getElementById('bgAudio');
+      var btn     = document.getElementById('muteBtn');
+      var iSound  = document.getElementById('iconSound');
+      var iMute   = document.getElementById('iconMute');
+      var muted   = false;      /* user-facing mute state */
+      var unlocked = false;     /* whether we have a gesture yet */
 
       audio.volume = 0.45;
 
@@ -1100,54 +1100,33 @@
         btn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
       }
 
-      function tryPlay() {
-        if (muted || playing) return;
-        var p = audio.play();
-        if (p) {
-          p.then(function () {
-            playing = true;
-            removeListeners();
-          }).catch(function () { /* still blocked — keep listeners alive */ });
-        }
-      }
+      /* Start muted — browsers always permit this without a gesture */
+      audio.muted = true;
+      audio.play().catch(function () {});
 
-      var EVENTS = ['touchstart', 'touchend', 'click', 'scroll', 'keydown', 'pointerdown'];
-
-      function onInteraction() { tryPlay(); }
-
-      function addListeners() {
-        EVENTS.forEach(function (ev) {
-          document.addEventListener(ev, onInteraction, { passive: true });
-        });
-      }
-
-      function removeListeners() {
+      /* On first interaction: unmute (unless user has manually muted) */
+      var EVENTS = ['touchstart', 'touchend', 'pointerdown', 'click', 'keydown', 'scroll'];
+      function onInteraction() {
+        if (unlocked) return;
+        unlocked = true;
         EVENTS.forEach(function (ev) {
           document.removeEventListener(ev, onInteraction);
         });
+        if (!muted) {
+          audio.muted = false;
+        }
       }
+      EVENTS.forEach(function (ev) {
+        document.addEventListener(ev, onInteraction, { passive: true });
+      });
 
-      /* Try immediately (works on desktop); fall back to interaction unlock on mobile */
-      var initial = audio.play();
-      if (initial) {
-        initial.then(function () {
-          playing = true;
-        }).catch(function () {
-          addListeners(); /* blocked — unlock on first gesture */
-        });
-      } else {
-        addListeners();
-      }
-
+      /* Manual mute toggle */
       btn.addEventListener('click', function () {
         muted = !muted;
         audio.muted = muted;
+        /* If toggling on before any gesture, mark as unlocked too */
+        if (!muted && !unlocked) { unlocked = true; }
         setIcons();
-        if (!muted) {
-          playing = false; /* allow tryPlay to fire again */
-          tryPlay();
-          if (!playing) addListeners();
-        }
       });
 
       setIcons();
