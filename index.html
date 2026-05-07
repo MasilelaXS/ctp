@@ -1094,29 +1094,34 @@
       audio.volume = 0.45;
 
       function tryPlay() {
-        audio.play().catch(function () { /* blocked until interaction */ });
+        if (!muted) audio.play().catch(function () {});
       }
 
-      /* Unlock on first user interaction */
-      function unlock() {
+      function setIcons() {
+        iSound.style.display = muted ? 'none' : '';
+        iMute.style.display  = muted ? ''     : 'none';
+        btn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
+      }
+
+      /* Try immediately (works on desktop) */
+      tryPlay();
+
+      /* Unlock on very first interaction anywhere on the page */
+      function unlockOnce() {
         tryPlay();
-        document.removeEventListener('touchstart', unlock);
-        document.removeEventListener('click',      unlock);
       }
-      document.addEventListener('touchstart', unlock, { once: true, passive: true });
-      document.addEventListener('click',      unlock, { once: true });
-      tryPlay(); /* works on desktop without gesture */
+      document.addEventListener('touchstart', unlockOnce, { once: true, passive: true });
+      document.addEventListener('click',      unlockOnce, { once: true });
 
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
+      /* Mute / unmute toggle — no stopPropagation so the unlock above fires too */
+      btn.addEventListener('click', function () {
         muted = !muted;
         audio.muted = muted;
-        iSound.style.display = muted ? 'none'  : '';
-        iMute.style.display  = muted ? ''      : 'none';
-        btn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
-        /* If muted was blocking autoplay, start it now */
-        if (!muted && audio.paused) audio.play().catch(function(){}); 
+        setIcons();
+        if (!muted) tryPlay();
       });
+
+      setIcons();
     })();
 
     /* ---------- PETALS ---------- */
