@@ -12,16 +12,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --burgundy:       #6E1B36;
-      --burgundy-dark:  #3D0E1C;
-      --burgundy-deep:  #1A0A12;
+      --burgundy:       #6B8F71;
+      --burgundy-dark:  #4A6B52;
+      --burgundy-deep:  #2C3E31;
       --gold:           #C9A84C;
       --gold-light:     #E8D4A0;
-      --gold-pale:      #F2E9D0;
-      --ivory:          #FAF7F2;
-      --champagne:      #F3EAD8;
-      --text:           #4A2535;
-      --text-light:     #7A5565;
+      --gold-pale:      #F2EDE0;
+      --ivory:          #FAF8F2;
+      --champagne:      #F5F0E8;
+      --text:           #2C3E31;
+      --text-light:     #6B7F6B;
+      --sage:           #8FAF8A;
+      --beige:          #D4C5A9;
     }
 
     html { scroll-behavior: smooth; }
@@ -534,10 +536,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
       flex-shrink: 0;
       margin-top: 2px;
     }
+    .event-icon-wrap svg { width: 20px; height: 20px; fill: var(--burgundy); }
     .event-details h4 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.05rem;
@@ -673,6 +675,115 @@
       color: rgba(255,255,255,0.35);
     }
 
+    /* ===================== ATTIRE / RSVP / GIFTS ===================== */
+    .info-section {
+      padding: 5rem 1.5rem;
+      background: var(--champagne);
+    }
+    .info-section.alt { background: var(--ivory); }
+    .info-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .info-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 480px) { .info-cards { grid-template-columns: 1fr; } }
+    .info-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem 1.2rem;
+      box-shadow: 0 4px 18px rgba(107,143,113,0.1);
+      border-top: 3px solid var(--burgundy);
+      text-align: center;
+    }
+    .info-card-icon { display:flex; justify-content:center; margin-bottom: 0.6rem; color: var(--burgundy); }
+    .info-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--burgundy);
+      margin-bottom: 0.5rem;
+    }
+    .info-card p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .info-card a {
+      color: var(--burgundy);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .rsvp-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 480px) { .rsvp-cards { grid-template-columns: 1fr; } }
+    .rsvp-card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(107,143,113,0.12);
+    }
+    .rsvp-card-header {
+      padding: 0.8rem 1rem;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .rsvp-card-header.bride-side { background: linear-gradient(135deg, var(--sage) 0%, var(--burgundy) 100%); }
+    .rsvp-card-header.groom-side { background: linear-gradient(135deg, var(--burgundy-dark) 0%, var(--sage) 100%); }
+    .rsvp-card-body {
+      background: #fff;
+      padding: 1.1rem 1rem;
+      text-align: center;
+    }
+    .rsvp-card-body strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .rsvp-tel {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      background: var(--burgundy);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+    .rsvp-tel:hover { opacity: 0.85; }
+    .gift-box {
+      margin-top: 2rem;
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 18px rgba(107,143,113,0.1);
+      border-left: 4px solid var(--gold);
+    }
+    .gift-box p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
     /* ===================== FOOTER ===================== */
     footer {
       background: var(--burgundy-deep);
@@ -805,9 +916,9 @@
     <div class="hero-content">
       <p class="hero-eyebrow">Together with their families</p>
       <h1 class="hero-names">
-        Mankonya
-        <span class="hero-amp">&amp;</span>
         Maleu
+        <span class="hero-amp">&amp;</span>
+        Mankonya
       </h1>
       <div class="hero-rule">
         <div class="hero-rule-line"></div>
@@ -864,7 +975,7 @@
         </svg>
       </div>
       <p class="invitation-body">
-        Together with their beloved families, <strong>Mankonya Ragophala</strong> and <strong>Maleu Motlou</strong> joyfully invite you to share in the celebration of their wedding. Your presence and blessings will make this moment even more special.
+        Together with their beloved families, <strong>Maleu Motlou</strong> and <strong>Mankonya Ragophala</strong> joyfully invite you to share in the celebration of their wedding. Your presence and blessings will make this moment even more special.
       </p>
       <blockquote class="invitation-verse">
         <p>&ldquo;Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It always protects, always trusts, always hopes, always perseveres.&rdquo;</p>
@@ -878,7 +989,7 @@
   <!--  PARALLAX 1                                                  -->
   <!-- ============================================================ -->
   <div class="parallax" aria-hidden="true">
-    <div class="parallax-bg" style="background-image: url('img/WhatsApp%20Image%202026-04-28%20at%2019.25.27%20%281%29.jpeg');"></div>
+    <div class="parallax-bg" style="background-image: url('img/WhatsApp%20Image%202026-04-28%20at%2019.25.27%20%281%29.jpeg'); background-position: center 25%;"></div>
     <div class="parallax-overlay"></div>
     <div class="parallax-text">
       <p class="parallax-quote">Two souls, one love</p>
@@ -892,9 +1003,23 @@
   <section class="couple">
     <div class="reveal">
       <p class="section-eyebrow">The Happy Couple</p>
-      <h2 class="section-title">Meet the Bride &amp; Groom</h2>
+      <h2 class="section-title">Meet the Groom &amp; Bride</h2>
     </div>
     <div class="couple-grid reveal">
+      <!-- Groom -->
+      <div class="couple-card">
+        <div class="couple-frame">
+          <img
+            class="couple-img"
+            src="img/WhatsApp Image 2026-04-28 at 19.25.31.jpeg"
+            alt="Maleu Motlou — The Groom"
+            style="object-position: center 8%;"
+          />
+        </div>
+        <p class="couple-role">The Groom</p>
+        <h3 class="couple-name">Maleu<br>Motlou</h3>
+      </div>
+
       <!-- Bride -->
       <div class="couple-card">
         <div class="couple-frame">
@@ -902,25 +1027,11 @@
             class="couple-img"
             src="img/WhatsApp Image 2026-04-28 at 19.25.23.jpeg"
             alt="Mankonya Ragophala — The Bride"
-            style="object-position: top center;"
+            style="object-position: 72% 8%;"
           />
         </div>
         <p class="couple-role">The Bride</p>
         <h3 class="couple-name">Mankonya<br>Ragophala</h3>
-      </div>
-
-      <!-- Groom -->
-      <div class="couple-card">
-        <div class="couple-frame">
-          <img
-            class="couple-img"
-            src="img/WhatsApp Image 2026-04-28 at 19.25.26.jpeg"
-            alt="Maleu Motlou — The Groom"
-            style="object-position: 8% top;"
-          />
-        </div>
-        <p class="couple-role">The Groom</p>
-        <h3 class="couple-name">Maleu<br>Motlou</h3>
       </div>
     </div>
   </section>
@@ -936,61 +1047,7 @@
         <p class="section-subtitle">Two beautiful days of love &amp; togetherness</p>
       </div>
 
-      <!-- DAY 1 -->
-      <div class="day-block reveal">
-        <div class="day-header">
-          <div class="day-num">8</div>
-          <div class="day-info">
-            <h3>Bride&rsquo;s Celebration</h3>
-            <p>Saturday &middot; 08 August 2026</p>
-          </div>
-        </div>
-        <div class="day-events">
-
-          <!-- Ceremony -->
-          <div class="event-row">
-            <div class="event-icon-wrap" aria-hidden="true">💍</div>
-            <div class="event-details">
-              <h4>Matrimonial Ceremony</h4>
-              <span class="event-time-chip">10:30 AM</span>
-              <p class="event-address">75 West Road, Austin View<br>Midrand</p>
-              <a
-                class="map-btn"
-                href="https://maps.google.com/?q=75+West+Road+Austin+View+Midrand"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Get directions to matrimonial venue"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                Get Directions
-              </a>
-            </div>
-          </div>
-
-          <!-- Reception Day 1 -->
-          <div class="event-row">
-            <div class="event-icon-wrap" aria-hidden="true">🥂</div>
-            <div class="event-details">
-              <h4>Reception</h4>
-              <span class="event-time-chip">12:00 PM</span>
-              <p class="event-address">2624 Itireleng Street<br>Phomolong, Tembisa</p>
-              <a
-                class="map-btn"
-                href="https://share.google/6VTA9sDDcPPIdsnBm"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Get directions to bride's reception"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                Get Directions
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- DAY 2 -->
+      <!-- DAY 1 — GROOM -->
       <div class="day-block reveal">
         <div class="day-header">
           <div class="day-num">9</div>
@@ -1001,9 +1058,9 @@
         </div>
         <div class="day-events">
 
-          <!-- Reception Day 2 -->
+          <!-- Groom Reception -->
           <div class="event-row">
-            <div class="event-icon-wrap" aria-hidden="true">🎉</div>
+            <div class="event-icon-wrap" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
             <div class="event-details">
               <h4>Reception</h4>
               <span class="event-time-chip">11:00 AM</span>
@@ -1024,6 +1081,136 @@
         </div>
       </div>
 
+      <!-- DAY 2 — BRIDE -->
+      <div class="day-block reveal">
+        <div class="day-header">
+          <div class="day-num">8</div>
+          <div class="day-info">
+            <h3>Bride&rsquo;s Celebration</h3>
+            <p>Saturday &middot; 08 August 2026</p>
+          </div>
+        </div>
+        <div class="day-events">
+
+          <!-- Ceremony -->
+          <div class="event-row">
+            <div class="event-icon-wrap" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg></div>
+            <div class="event-details">
+              <h4>Matrimonial Ceremony</h4>
+              <span class="event-time-chip">10:30 AM</span>
+              <p class="event-address">75 West Road, Austin View<br>Midrand</p>
+              <a
+                class="map-btn"
+                href="https://maps.google.com/?q=75+West+Road+Austin+View+Midrand"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Get directions to matrimonial venue"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                Get Directions
+              </a>
+            </div>
+          </div>
+
+          <!-- Reception Bride -->
+          <div class="event-row">
+            <div class="event-icon-wrap" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3H5l2.5 7H5l7 11 7-11h-2.5L19 3h-4.5l-2 5.5L10.5 3zm2 10.5L9 9h6l-2.5 7-1-2.5z"/></svg></div>
+            <div class="event-details">
+              <h4>Reception</h4>
+              <span class="event-time-chip">12:00 PM</span>
+              <p class="event-address">2624 Itireleng Street<br>Phomolong, Tembisa</p>
+              <a
+                class="map-btn"
+                href="https://share.google/6VTA9sDDcPPIdsnBm"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Get directions to bride's reception"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                Get Directions
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  ATTIRE                                                      -->
+  <!-- ============================================================ -->
+  <section class="info-section" aria-label="Dress Code">
+    <div class="info-inner">
+      <div class="reveal" style="text-align:center;">
+        <p class="section-eyebrow">Dress Code</p>
+        <h2 class="section-title">What to Wear</h2>
+        <p class="section-subtitle">Theme: Sage Green &amp; Beige</p>
+      </div>
+      <div class="info-cards reveal">
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M16 2l-1 3H9L8 2H4l2 4v14h12V6l2-4h-4zm-4 14a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-5a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg></div>
+          <h4>Bride&rsquo;s Home (Aug 8)</h4>
+          <p>Elegant <strong>Sage Green</strong> and <strong>Beige</strong> attire for all guests.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M12 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-1 5c-2.5.3-4 2-4 4v1h10v-1c0-2-1.5-3.7-4-4H11zm-5.5 7l1 6h9l1-6H5.5z"/></svg></div>
+          <h4>Groom&rsquo;s Home (Aug 9)</h4>
+          <p><strong>Groom Traditional Attire.</strong><br>Guests are welcome to embrace cultural dress.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  RSVP                                                        -->
+  <!-- ============================================================ -->
+  <section class="info-section alt" aria-label="RSVP">
+    <div class="info-inner">
+      <div class="reveal" style="text-align:center;">
+        <p class="section-eyebrow">Kindly Respond</p>
+        <h2 class="section-title">RSVP</h2>
+        <p class="section-subtitle">Please confirm your attendance</p>
+      </div>
+      <div class="rsvp-cards reveal">
+        <div class="rsvp-card">
+          <div class="rsvp-card-header bride-side">Bride&rsquo;s Side</div>
+          <div class="rsvp-card-body">
+            <strong>Mosale</strong>
+            <a class="rsvp-tel" href="tel:0664461302">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+              066 446 1302
+            </a>
+          </div>
+        </div>
+        <div class="rsvp-card">
+          <div class="rsvp-card-header groom-side">Groom&rsquo;s Side</div>
+          <div class="rsvp-card-body">
+            <strong>Sylvia</strong>
+            <a class="rsvp-tel" href="tel:0653210446">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+              065 321 0446
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  GIFTS                                                       -->
+  <!-- ============================================================ -->
+  <section class="info-section" aria-label="Gifts">
+    <div class="info-inner reveal" style="text-align:center;">
+      <p class="section-eyebrow">Gifts</p>
+      <h2 class="section-title">A Kind Gesture</h2>
+      <div class="gift-box">
+        <div style="margin-bottom:1rem;">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" style="color:var(--gold);"><path d="M20 6h-2.18c.07-.33.18-.65.18-1 0-2.21-1.79-4-4-4s-4 1.79-4 4c0 .35.11.67.18 1H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-3c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm-1 14l-3-3 1.41-1.41L13 15.17l4.59-4.58L19 12l-6 5z"/></svg>
+        </div>
+        <p>Your presence is the greatest gift of all. Should you wish to honour us further, we truly appreciate any heartfelt and <strong>sentimental gifts</strong> that celebrate this new chapter of our lives together.</p>
+      </div>
     </div>
   </section>
 
@@ -1031,7 +1218,7 @@
   <!--  PARALLAX 2                                                  -->
   <!-- ============================================================ -->
   <div class="parallax" aria-hidden="true">
-    <div class="parallax-bg" style="background-image: url('img/WhatsApp%20Image%202026-04-28%20at%2019.25.25%20%281%29.jpeg');"></div>
+    <div class="parallax-bg" style="background-image: url('img/WhatsApp%20Image%202026-04-28%20at%2019.25.25%20%281%29.jpeg'); background-position: center 20%;"></div>
     <div class="parallax-overlay"></div>
     <div class="parallax-text">
       <p class="parallax-quote">Forever begins now</p>
@@ -1065,7 +1252,7 @@
   <!-- ============================================================ -->
   <footer>
     <h2 class="footer-logo">
-      Mankonya <span class="footer-amp">&amp;</span> Maleu
+      Maleu <span class="footer-amp">&amp;</span> Mankonya
     </h2>
     <p class="footer-date">08 &middot; 09 &middot; August &middot; 2026</p>
     <p class="footer-message">
