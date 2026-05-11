@@ -1432,7 +1432,12 @@
         btn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
       }
 
-      /* Start muted — envelope overlay handles the unmute on tap */\n      audio.muted = true;\n      audio.play().catch(function () {});\n\n      /* Fallback: also unmute on any interaction (in case overlay was already dismissed) */\n      var EVENTS = ['touchstart', 'touchend', 'pointerdown', 'click', 'keydown', 'scroll'];
+      /* Start muted — envelope overlay handles the unmute on tap */
+      audio.muted = true;
+      audio.play().catch(function () {});
+
+      /* Fallback: also unmute on any interaction (in case overlay was already dismissed) */
+      var EVENTS = ['touchstart', 'touchend', 'pointerdown', 'click', 'keydown', 'scroll'];
       function onInteraction() {
         if (unlocked) return;
         unlocked = true;
