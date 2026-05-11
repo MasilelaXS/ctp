@@ -875,7 +875,98 @@
       border-color: #fff;
     }
 
-    /* ===================== ANIMATIONS ===================== */
+    /* ===================== ENVELOPE OVERLAY ===================== */
+    #envelopeOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      background: linear-gradient(160deg, #1a0a12 0%, #2c3e31 60%, #1a0a12 100%);
+      cursor: pointer;
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    #envelopeOverlay.hiding {
+      opacity: 0;
+      transform: scale(1.06);
+      pointer-events: none;
+    }
+    .env-sparkle {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .env-sparkle span {
+      position: absolute;
+      display: block;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      animation: sparkle 4s linear infinite;
+    }
+    @keyframes sparkle {
+      0%   { opacity: 0; transform: scale(0.5); }
+      50%  { opacity: 0.8; }
+      100% { opacity: 0; transform: scale(1.5) translateY(-20px); }
+    }
+    .env-img-wrap {
+      position: relative;
+      animation: envFloat 3s ease-in-out infinite;
+    }
+    @keyframes envFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+    #envelopeOverlay.hiding .env-img-wrap {
+      animation: envOpen 0.7s ease forwards;
+    }
+    @keyframes envOpen {
+      0%   { transform: scale(1) translateY(0); }
+      40%  { transform: scale(1.18) translateY(-8px); }
+      100% { transform: scale(0.6) translateY(60px); opacity: 0; }
+    }
+    .env-img {
+      width: min(62vw, 260px);
+      filter: drop-shadow(0 16px 40px rgba(0,0,0,0.55));
+      display: block;
+    }
+    .env-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.2rem, 9vw, 3.8rem);
+      color: #fff;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.4);
+      text-align: center;
+      line-height: 1.2;
+    }
+    .env-title span { color: var(--gold); }
+    .env-hint {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .env-rule {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--gold);
+    }
+    .env-rule::before, .env-rule::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+    }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(32px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -897,6 +988,21 @@
   <!--  FLOATING PETALS                                             -->
   <!-- ============================================================ -->
   <!-- Background music -->
+  <!-- ============================================================ -->
+  <!--  ENVELOPE OVERLAY                                            -->
+  <!-- ============================================================ -->
+  <div id="envelopeOverlay" role="button" tabindex="0" aria-label="Open your wedding invitation">
+    <div class="env-sparkle" id="envSparkle"></div>
+    <h1 class="env-title">Maleu <span>&amp;</span> Mankonya</h1>
+    <div class="env-img-wrap">
+      <img class="env-img" src="envelope.png" alt="Wedding invitation envelope" />
+    </div>
+    <div class="env-rule">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 3.199 4.198 1 7.5 1c1.947 0 3.668.83 4.5 2.165C12.832 1.83 14.553 1 16.5 1 19.802 1 23 3.199 23 7.191c0 4.105-5.37 8.863-11 14.402z"/></svg>
+    </div>
+    <p class="env-hint">Tap to open</p>
+  </div>
+
   <audio id="bgAudio" src="song.mp3" loop preload="auto" muted></audio>
 
   <!-- Mute toggle -->
@@ -1270,6 +1376,45 @@
   <script>
     'use strict';
 
+    /* ---------- ENVELOPE OVERLAY ---------- */
+    (function initEnvelope() {
+      var overlay = document.getElementById('envelopeOverlay');
+      var sparkleEl = document.getElementById('envSparkle');
+
+      /* Spawn sparkle dots */
+      for (var s = 0; s < 28; s++) {
+        var sp = document.createElement('span');
+        sp.style.cssText = [
+          'left:'  + (Math.random() * 100) + '%',
+          'top:'   + (Math.random() * 100) + '%',
+          'animation-delay:' + (Math.random() * 4) + 's',
+          'animation-duration:' + (2.5 + Math.random() * 3) + 's',
+          'width:' + (2 + Math.random() * 3) + 'px',
+          'height:' + (2 + Math.random() * 3) + 'px'
+        ].join(';');
+        sparkleEl.appendChild(sp);
+      }
+
+      function openInvitation() {
+        overlay.classList.add('hiding');
+        /* Unmute and play music */
+        var audio = document.getElementById('bgAudio');
+        audio.muted = false;
+        audio.play().catch(function () {});
+        /* Remove overlay from DOM after animation */
+        setTimeout(function () {
+          overlay.style.display = 'none';
+          /* Trigger hero zoom */
+          document.getElementById('heroBg').classList.add('zoomed');
+        }, 950);
+      }
+
+      overlay.addEventListener('click', openInvitation);
+      overlay.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') openInvitation();
+      });
+    })();
+
     /* ---------- BACKGROUND MUSIC ---------- */
     (function initMusic() {
       var audio   = document.getElementById('bgAudio');
@@ -1287,12 +1432,7 @@
         btn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
       }
 
-      /* Start muted — browsers always permit this without a gesture */
-      audio.muted = true;
-      audio.play().catch(function () {});
-
-      /* On first interaction: unmute (unless user has manually muted) */
-      var EVENTS = ['touchstart', 'touchend', 'pointerdown', 'click', 'keydown', 'scroll'];
+      /* Start muted — envelope overlay handles the unmute on tap */\n      audio.muted = true;\n      audio.play().catch(function () {});\n\n      /* Fallback: also unmute on any interaction (in case overlay was already dismissed) */\n      var EVENTS = ['touchstart', 'touchend', 'pointerdown', 'click', 'keydown', 'scroll'];
       function onInteraction() {
         if (unlocked) return;
         unlocked = true;
@@ -1339,11 +1479,6 @@
         canvas.appendChild(p);
       }
     })();
-
-    /* ---------- HERO ZOOM ---------- */
-    window.addEventListener('load', function () {
-      document.getElementById('heroBg').classList.add('zoomed');
-    });
 
     /* ---------- SCROLL REVEAL ---------- */
     var revealObs = new IntersectionObserver(function (entries) {
